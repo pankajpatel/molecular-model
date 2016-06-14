@@ -1,0 +1,4 @@
+#!/bin/bash
+
+watchify js/main.js -t brfs -o ./bundle.js -v
+

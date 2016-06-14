@@ -1,54 +1,3 @@
-var dropZone = document.getElementById('dropZone');
-
-$(dropZone)
-  .on('dragover', function(e) {
-    $(this).addClass('active over')
-    e.stopPropagation();
-    e.preventDefault();
-    e.originalEvent.dataTransfer.dropEffect = 'copy';
-  })
-  .on('dragenter', function(e) {
-    $(this).addClass('active')
-    e.stopPropagation();
-    e.preventDefault();
-  })
-  .on('dragleave', function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-  })
-  .on('drop', function(e) {
-    $(this).removeClass('active over')
-    e.stopPropagation();
-    e.preventDefault();
-    var files = e.originalEvent.dataTransfer.files; // Array of all files
-    for (var i=0, file; file=files[i]; i++) {
-      console.log(file)
-      if (file.type.match(/text.*/)) {
-        var reader = new FileReader();
-        reader.onload = function(e2) { // finished reading file data.
-          var formulas = e2.target.result.split('\n');
-          $('#results p#formulas').html( formulas.join('<br/>') )
-          for (var i = 0; i < formulas.length; i++) {
-            getDetailsOfMolecule(formulas[i]);
-          }
-        }
-        reader.readAsText(file); // start reading the file data.
-      }
-    }
-  });
-
-var getDetailsOfMolecule = function(str){
-  var xhr = new XMLHttpRequest();
-  var data = Base64.encode( str );
-  xhr.open("GET","https://www.ebi.ac.uk/chembl/api/utils/smiles2json/"+data,true);
-  xhr.send();
-  xhr.onreadystatechange = function(){
-    if ( 4 == xhr.readyState && 200 == xhr.status )
-    {
-      console.log(xhr.responseText)
-    }
-  }
-}
 var Base64 = {
   _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
@@ -176,3 +125,4 @@ var Base64 = {
     return string;
   }
 }
+module.exports = Base64

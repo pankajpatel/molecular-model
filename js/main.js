@@ -34,6 +34,7 @@ var getData = function(url, data, callback){
     callback(result);
   })
 }
+
 /*
 @param str Molecule str
 @param index count index on the pages to target elements
@@ -70,7 +71,50 @@ var makeGraph = function(xyzData, index){
 
   function bindEvents(){
     reflow();
+    var lastX = 0.0;
+    var lastY = 0.0;
+    var buttonDown = false;
 
+    renderContainer.addEventListener("mousedown", function(e) {
+        document.body.style.cursor = "none";
+        if (e.button == 0) {
+            buttonDown = true;
+        }
+        lastX = e.clientX;
+        lastY = e.clientY;
+    });
+
+    window.addEventListener("mouseup", function(e) {
+        document.body.style.cursor = "";
+        if (e.button == 0) {
+            buttonDown = false;
+        }
+    });
+
+    setInterval(function() {
+        if (!buttonDown) {
+            document.body.style.cursor = "";
+        }
+    }, 10);
+
+    window.addEventListener("mousemove", function(e) {
+        if (!buttonDown) {
+            return;
+        }
+        var dx = e.clientX - lastX;
+        var dy = e.clientY - lastY;
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (e.shiftKey) {
+            View.translate(view, dx, dy);
+        } else {
+            View.rotate(view, dx, dy);
+        }
+        needReset = true;
+    });
     window.addEventListener("resize", reflow);
   }
   function loop() {

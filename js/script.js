@@ -40,7 +40,7 @@ $(dropZone)
 var getDetailsOfMolecule = function(str){
   var xhr = new XMLHttpRequest();
   var data = Base64.encode( str );
-  xhr.open("GET","http://www.ebi.ac.uk/chembl/api/utils/smiles2json/"+data,true);
+  xhr.open("GET","https://www.ebi.ac.uk/chembl/api/utils/smiles2json/"+data,true);
   xhr.send();
   xhr.onreadystatechange = function(){
     if ( 4 == xhr.readyState && 200 == xhr.status )

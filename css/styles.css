@@ -1,0 +1,9 @@
+#dropZone{
+	border: 1px solid #ddd;
+}
+#dropZone.active{
+	border: 1px dashed #aaa;
+}
+#dropZone.active.over{
+	border: 1px dashed green;
+}

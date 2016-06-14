@@ -518,8 +518,9 @@ window.onload = function() {
               p.innerHTML=  formulas[i]
               div.appendChild(p);
               div.appendChild(div2);
+              div2.innerHTML = '<div id="render-container-'+i+'"><canvas id="renderer-canvas-'+i+'"></canvas></div>';
               document.getElementById('results').appendChild(div);
-              getDetailsOfMolecule(formulas[i]);
+              getDetailsOfMolecule(formulas[i], i);
             }
             // $('#results p#formulas').html( formulas.join('<br/>') )
             // for (var i = 0; i < formulas.length; i++) {
@@ -534,23 +535,33 @@ window.onload = function() {
     
      */
   var getData = function(url, data, callback){
-    $.get(API+smiles2ctab+data +'?format=json', function(result){
+    $.get(url+data +'?format=json', function(result){
       callback(result);
     })
   }
-  var getDetailsOfMolecule = function(str){
+  /*
+  @param str Molecule str
+  @param index count index on the pages to target elements
+   */
+  var getDetailsOfMolecule = function(str, index){
     var data = Base64.encode( str );
     var xyz = '';
     getData(API+smiles2ctab, data, function(ctab){
       getData(API+ctab2xyz, Base64.encode(ctab), function(xyzData){
         // loadStructure(xyz(xyzData)[0]);
-        makeGraph(xyz)
+        makeGraph(xyzData, index)
       })
     })
   }
-  var makeGraph = function(xyzData){
+  var makeGraph = function(xyzData, index){
     console.log('make graph')
     if(xyzData.length){
+      renderContainer = document.getElementById("render-container-"+index);
+
+      var imposterCanvas = document.getElementById("renderer-canvas-"+index);
+
+      renderer = new Renderer(imposterCanvas, view.resolution, view.aoRes);
+
       loadStructure(xyz(xyzData)[0]);
     } else {
       console.log('failed; data received of length ' + xyzData.length )

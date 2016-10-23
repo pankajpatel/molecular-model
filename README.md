@@ -1,7 +1,7 @@
 # MolecularModel
 Molecular Model with SMILES, ChEMBL API and Speck
 
-Check it in action on URL: https://pankajpatel.github.io/MolecularModel/
+Check it in action on URL: https://pankajpatel.github.io/molecular-model/
 
 Sample Molecules:
 ```

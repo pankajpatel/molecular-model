@@ -17,7 +17,7 @@
   },
   "homepage": "https://pankajpatel.github.io/MolecularModel/",
   "dependencies": {
-    "brfs": "~1.6.0",
+    "brfs": "~2.0.0",
     "jquery": "^3.0.0",
     "keyboardjs": "^2.0.0",
     "lz-string": "^1.4.1"
